@@ -8,7 +8,9 @@
 <!-- badges: end -->
 
 Provides functions for specifying and fitting nonstationary covariance
-models for Gaussian processes and Gaussian Markov random fields.
+models for Gaussian processes and Gaussian Markov random fields. See the
+vignettes on climate ensemble emulation using a GMRF and a simple
+example using a nonstationary generalization of the Matern.
 
 ## Installation
 
@@ -26,7 +28,9 @@ To build the vignettes (which takes about 11 minutes on my laptop)
   devtools::install_github("ashtonwiens/nonstationary", build_vignettes=TRUE)
 ```
 
-## Examples
+Then
 
-See the vignettes on climate ensemble emulation using a GMRF and a
-simple example using a nonstationary generalization of the Matern.
+``` r
+vignette('climate-ensemble-emulation', package='nonstationary')
+vignette('nonstationary-matern-generalization', package='nonstationary')
+```
