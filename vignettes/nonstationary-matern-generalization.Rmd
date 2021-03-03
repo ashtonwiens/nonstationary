@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Create a nonstationary Matern covariance matrix
 
-```{r setup}
+```{r setup, warning=FALSE, message=FALSE}
 library(nonstationary)
 ```
 

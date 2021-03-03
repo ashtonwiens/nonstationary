@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Nonstationary covariance estimates of climate model forecast ensemble
 
-```{r setup}
+```{r setup, warning=FALSE, message=FALSE}
 library(nonstationary)
 library(spam)
 ```
