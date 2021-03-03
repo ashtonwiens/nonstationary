@@ -149,15 +149,22 @@ system.time({
 ```
 
 
-Simulation from cholesky decomposition of the covariance matrix
+Simulations from cholesky decomposition of the covariance matrix
 
 ```{r, fig.width=8}
 S <- Sigma.c 
 set.seed(94) 
-YM <- t(S) %*% rnorm(dim(S)[1])
-YM <- matrix(YM, nr=length(lonNS))
+YM <- t(S) %*% cbind(rnorm(dim(S)[1]), rnorm(dim(S)[1]), rnorm(dim(S)[1]) )
+YM1 <- matrix(YM[,1], nr=length(lonNS))
+YM2 <- matrix(YM[,2], nr=length(lonNS))
+YM3 <- matrix(YM[,3], nr=length(lonNS))
 f <- 1 #sqrt(sdRaw)
-image(lonNS, latNS, YM*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n', col=fields::tim.colors()); fields::world(add=TRUE, col='gray')
+image(lonNS, latNS, YM1*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n', col=fields::tim.colors())
+fields::world(add=TRUE, col='gray')
+image(lonNS, latNS, YM2*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n', col=fields::tim.colors())
+fields::world(add=TRUE, col='gray')
+image(lonNS, latNS, YM3*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n', col=fields::tim.colors())
+fields::world(add=TRUE, col='gray')
 ```
 
 Correlation plots at various spatial locations along a line of latitude
