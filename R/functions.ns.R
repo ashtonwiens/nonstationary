@@ -1,5 +1,3 @@
-#' @importFrom spam %d*%
-NULL
 
 #' Encode nonstationary GMRF precision matrix
 #'

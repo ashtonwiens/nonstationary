@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(nonstationary)
+library(spam)
 ```
 
 Load the locally estimated Matern covariance parameters. The four plots include the variance of the spatial autocorrelation process (sill), variance of the white noise process (nugget), the spatial correlation range (the geometric average of the semi-major and semi-minor axes of the geometric anisotropy ellipse), and the geometric anis0tropy ellipses.
@@ -115,7 +116,7 @@ for(i in 1:dim(Fg)[1]){
 
 Construct covariance matrix from square root of precision matrix, after normalizing the marginal variances
 
-```{r, eval=FALSE}
+```{r}
 
 ############### ENCODE SAR
 #######################
@@ -150,7 +151,7 @@ system.time({
 
 Simulation from cholesky decomposition of the covariance matrix
 
-```{r, eval=FALSE, fig.width=8}
+```{r, fig.width=8}
 S <- Sigma.c 
 set.seed(94) 
 YM <- t(S) %*% rnorm(dim(S)[1])
@@ -161,7 +162,7 @@ image(lonNS, latNS, YM*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n'
 
 Correlation plots at various spatial locations along a line of latitude
 
-```{r, eval=FALSE, fig.width=8}
+```{r, fig.width=8}
 a <- c(3010, 3025, 3030, 3040)#, 7928)
 
 par(mfrow=c(1,4), mar=c(1,1,1,1))
