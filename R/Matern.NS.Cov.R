@@ -74,7 +74,7 @@ Anisotropic.Matern.Nonstationary.Cov <- function(x, y, Lx, Ly, ang, nu, sigma=1,
           }
 
         }
-        print(i/(m*n))
+        if(verbose)print(i/(m*n))
       }
   }
   for(i in 1:(m*n)){

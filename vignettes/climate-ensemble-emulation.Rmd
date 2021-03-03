@@ -14,15 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Nonstationary covariance estimates of climate model forecast ensemble
+
 ```{r setup}
 library(nonstationary)
 ```
 
-# Nonstationary covariance estimates of climate model forecast ensemble
-
 Load the locally estimated Matern covariance parameters. The four plots include the variance of the spatial autocorrelation process (sill), variance of the white noise process (nugget), the spatial correlation range (the geometric average of the semi-major and semi-minor axes of the geometric anisotropy ellipse), and the geometric anis0tropy ellipses.
 
-```{r}
+```{r, fig.width=8}
 #load("../nsMaternEstimates.rda")
 data("nsMaternEstimates")
 grd <- nsMaternEstimates$grd
@@ -54,7 +54,6 @@ for(i in 1:nrow(grd)){
 }
 
 
-par(mfrow=c(1,5), mar=c(1,0.5,2,0.5))
 par(mfrow=c(1,4), mar=c(1,0.3,2,0.7))
 
 #fields::image.plot(lonNS, latNS, theta, main='theta'); fields::world(add=TRUE) #, zlim=c(0,range.thresh)
@@ -151,7 +150,7 @@ system.time({
 
 Simulation from cholesky decomposition of the covariance matrix
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, fig.width=8}
 S <- Sigma.c 
 set.seed(94) 
 YM <- t(S) %*% rnorm(dim(S)[1])
@@ -162,7 +161,7 @@ image(lonNS, latNS, YM*f, zlim=c(-3.6, 3.6),xlab='', ylab='', xaxt='n', yaxt='n'
 
 Correlation plots at various spatial locations along a line of latitude
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, fig.width=8}
 a <- c(3010, 3025, 3030, 3040)#, 7928)
 
 par(mfrow=c(1,4), mar=c(1,1,1,1))
