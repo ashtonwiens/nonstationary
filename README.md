@@ -20,6 +20,12 @@ You can install the development version of this package from
 devtools::install_github("ashtonwiens/nonstationary")
 ```
 
+To build the vignettes (which takes about 11 minutes on my laptop)
+
+``` r
+devtools::install_github("ashtonwiens/nonstationary", build_vignettes=TRUE)
+```
+
 ## Examples
 
 See the vignettes on climate ensemble emulation using a GMRF and a
