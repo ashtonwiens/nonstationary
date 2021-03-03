@@ -1,0 +1,80 @@
+## ---- include = FALSE---------------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+## ----setup--------------------------------------------------------------------
+library(nonstationary)
+
+## -----------------------------------------------------------------------------
+##### encode (local) spatially varying parameters (range, sill, nugget) into a global nonstationarity covariance
+### Paciorek (2003) and Stein (2005)
+n <- 10
+m <- 10
+x <- 1:n
+y <- 1:m
+x1 <- expand.grid(x,y)
+theta <- matrix(x1[,2], nr=n, nc=m)
+nu <- matrix(x1[,2]/2, nr=n, nc=m)
+
+###
+Lx <- Ly <- matrix(3*x1[,2]/10+1, nr=n, nc=m)
+ang <- sigma <- tau <- matrix(3*x1[,2]/10+1, nr=n, nc=m) #matrix(x1[,2]/10, nr=n, nc=m)
+ang[] <- 0#matrix(x1[,2]/10, nr=n, nc=m)
+nu[] <- 1 #matrix(x1[,2]/15, nr=n, nc=m)
+sigma[] <- tau[] <- 1 #matrix(sqrt((x1[,2]/4)), nr=n, nc=m)
+fields::image.plot(x, y, Ly , main='Ly')
+
+## -----------------------------------------------------------------------------
+Lx.ex <- Ly.ex <- 2
+ang.ex <- 0
+U <- matrix(c(cos(ang.ex), -sin(ang.ex),
+              sin(ang.ex), cos(ang.ex)), nrow=2, ncol=2, byrow=TRUE)
+D <- matrix(c(Lx.ex^2, 0, 0, Ly.ex^2), nrow=2, ncol=2, byrow=TRUE)
+L <- sqrt(solve(D))%*%t(U)
+S <- U %*% D %*% t(U)
+
+sigma <- 1
+
+CV2 <- sigma^2 * fields::Matern( fields::rdist(x1), range = Lx.ex, smoothness=1)
+CV3 <- sigma^2 * fields::Matern( fields::rdist(t(L%*%t(x1) )), range = 1, smoothness=1)
+CV <- Anisotropic.Matern.Nonstationary.Cov(x, y, Lx.ex, Ly.ex, ang, nu, sigma, verbose=FALSE)
+
+#head(CV)
+#head(CV2)
+#head(CV3)
+
+#image.plot(head(CV))
+#image.plot(head(CV2), main='ns')
+#image.plot(head(CV2), main='L')
+
+all(dplyr::near(CV,CV2))
+all(dplyr::near(CV,CV3))
+
+## ---- fig.width=8-------------------------------------------------------------
+CV <- Anisotropic.Matern.Nonstationary.Cov(x, y, Lx, Ly, ang, nu, sigma, verbose=FALSE)
+
+i <- 557
+#image.plot(matrix(CV2[i,], n, m))
+#image.plot(matrix(CV3[i,], n, m))
+
+i <- 18
+j <- 88
+graphics::par(mfrow=c(1,2))
+fields::image.plot(matrix(CV[i,], n, m))
+fields::image.plot(matrix(CV[j,], n, m))
+
+## ---- fig.width=8-------------------------------------------------------------
+CV.c <- t(chol(CV))
+ysm <- CV.c %*% cbind( rnorm(dim(CV.c)[1]), rnorm(dim(CV.c)[1]), rnorm(dim(CV.c)[1]))
+ysmm1 <- matrix(ysm[,1], nrow=length(x), ncol=length(y))
+ysmm2 <- matrix(ysm[,2], nrow=length(x), ncol=length(y))
+ysmm3 <- matrix(ysm[,3], nrow=length(x), ncol=length(y))
+graphics::par(mfrow=c(1,3))
+fields::image.plot(ysmm1)
+fields::image.plot(ysmm2)
+fields::image.plot(ysmm3)
+
+
+
